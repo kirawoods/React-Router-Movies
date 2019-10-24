@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Movie = props => {
-  const [movie, setMovie] = useState({});
+  const [movie, setMovie] = useState(undefined);
 
   useEffect(() => {
     const id = props.match.params.id;
@@ -10,7 +10,6 @@ const Movie = props => {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(response => {
-        console.log(response.data);
         setMovie(response.data);
       })
       .catch(error => {
@@ -24,11 +23,12 @@ const Movie = props => {
   //   addToSavedList(movie)
   // }
 
-  if (!movie) {
+  if (movie === undefined) {
     return <div>Loading movie information...</div>;
   }
 
   const { title, director, metascore, stars } = movie;
+  console.log(movie, stars);
   return (
     <div className="save-wrapper">
       <div className="movie-card">
@@ -40,7 +40,7 @@ const Movie = props => {
           Metascore: <strong>{metascore}</strong>
         </div>
         <h3>Actors</h3>
-
+        {/* {stars} */}
         {stars.map(star => (
           <div key={star} className="movie-star">
             {star}
